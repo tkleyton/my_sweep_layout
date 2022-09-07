@@ -1,7 +1,7 @@
 // Make sure you use the US international layout in every device.
 // On Linux, use US, intl., with dead keys.
 enum layout_names {
-    CANARY2,
+    QLIMBY,
     CANARY,
     QWERTY,
     SYM,
@@ -42,6 +42,9 @@ enum custom_keycodes {
     O_ACUTE,
     U_ACUTE,
     C_ACUTE,
+    LH,
+    TILDE,
+    GRV,
 };
 
 uint16_t last_keycode = KC_NO;
@@ -353,6 +356,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_RALT);
             }
             break;
+        case LH:
+	    if (record->event.pressed) {
+		send_string("lh");
+	    }
+	    break;
+	case TILDE:
+	    if (record->event.pressed) {
+		send_string("~ ");
+	    }
+	    break;
+	case GRV:
+	    if (record->event.pressed) {
+		send_string("` ");
+	    }
+	    break;
     }
     return true;
 }
@@ -383,8 +401,8 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
             return true;
         case REPEAT:
             return true;
-        case LT(SYM, KC_E):
-            return true;
+//        case LT(SYM, KC_E):
+//            return true;
         default:
             // Do not select the hold action when another key is tapped.
             return false;
@@ -392,7 +410,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 }
 
 /*
-Base alphas - Canary mod
+Base alphas - Canary mod (QLIMBY)
 Base alphas - Canary
 Base alphas - QWERTY
 Symbols and access to other layers
@@ -403,10 +421,10 @@ Gaming layer (Overwatch)
 Accented characters
 */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	[CANARY2] = LAYOUT(
-		KC_W, KC_L, KC_Y, KC_P, KC_B,						KC_Z, KC_F, KC_O, REPEAT, KC_BSPC,
-		LGUI_T(KC_C), LALT_T(KC_R), LSFT_T(KC_S), LCTL_T(KC_T), KC_G,		KC_M, RCTL_T(KC_N), RSFT_T(KC_A), LALT_T(KC_U), RGUI_T(KC_I),
-	       	LCTL_T(KC_Q), RALT_T(KC_J), KC_V, KC_D, KC_K,				KC_X, KC_H, KC_SLSH, RALT_T(KC_COMM), LCTL_T(KC_DOT),
+	[QLIMBY] = LAYOUT(
+		REPEAT, KC_L, KC_M, KC_B, LT(FUN, KC_Q),				LT(FUN, KC_Z), KC_F, KC_O, KC_U, KC_BSPC,
+		LGUI_T(KC_C), LALT_T(KC_R), LSFT_T(KC_S), LCTL_T(KC_T), KC_W,		KC_Y, RCTL_T(KC_N), RSFT_T(KC_A), LALT_T(KC_I), RGUI_T(KC_H),
+	       	LCTL_T(KC_V), RALT_T(KC_J), KC_G, KC_D, KC_K,				KC_X, KC_P, KC_SLSH, RALT_T(KC_COMM), LT(NUM, KC_DOT),
 	       				LT(NAV, KC_TAB), LT(NUM, KC_SPC),			LT(SYM, KC_E), OSL(ACC)
 	),
 	[CANARY] = LAYOUT(
@@ -436,7 +454,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[NUM] = LAYOUT(
 		KC_ESC, KC_PERC, KC_CIRC, KC_AMPR, KC_LCBR, 			KC_UNDS, KC_7, KC_8, KC_9, KC_BSPC,
 		KC_TAB, KC_MINS, KC_PLUS, KC_EQL, KC_RCBR,			KC_PDOT, KC_4, KC_5, KC_6, KC_ENT,
-		KC_COLN, KC_SLSH, KC_ASTR, RALT(KC_TILD), RALT(KC_GRV),		KC_COMM, KC_1, KC_2, KC_3, TG(NAV),
+		KC_COLN, KC_SLSH, KC_ASTR, TILDE, GRV,				KC_COMM, KC_1, KC_2, KC_3, TG(NAV),
 					OSM(MOD_LSFT), TG(NUM),			KC_0, KC_SPC
 	),
 	[NAV] = LAYOUT(
@@ -446,9 +464,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 					KC_TRNS, TG(NAV),		KC_LCTL, KC_LSFT
 	),
 	[FUN] = LAYOUT(
-		KC_ESC, DM_REC1, DM_PLY1, DF(CANARY), KC_VOLU,			KC_HOME, KC_F7, KC_F8, KC_F9, KC_F10,
-		KC_LGUI, KC_LALT, DF(CANARY2), DF(QWERTY), KC_VOLD,		KC_END, KC_F4, KC_F5, KC_F6, KC_F11,
-		KC_TRNS, KC_MPRV, KC_MNXT, KC_MPLY, KC_MUTE,			KC_INS, KC_F1, KC_F2, KC_F3, KC_F12,
+		KC_ESC, DM_REC1, DM_PLY1, DF(CANARY), KC_MUTE,			KC_SCRL, KC_F7, KC_F8, KC_F9, KC_F10,
+		KC_CAPS, KC_LALT, DF(QLIMBY), DF(QWERTY), KC_VOLU,		KC_PAUS, KC_F4, KC_F5, KC_F6, KC_F11,
+		KC_TRNS, KC_MPRV, KC_MNXT, KC_MPLY, KC_VOLD,			KC_INS, KC_F1, KC_F2, KC_F3, KC_F12,
 					KC_TRNS, TG(FUN),			KC_TRNS, KC_TRNS
 	),
 	[GAM] = LAYOUT(
@@ -464,8 +482,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //						KC_TRNS, KC_TRNS,		KC_TRNS, KC_TRNS
 //	),
 	[ACC] = LAYOUT(
-		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,		KC_TRNS, KC_TRNS, O_ACUTE, E_ACUTE, LCTL(KC_BSPC),
-		C_ACUTE, A_TILDE, O_TILDE, A_CIRC, KC_TRNS,		KC_TRNS, KC_TRNS, A_ACUTE, U_ACUTE, I_ACUTE,
+		KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,		KC_TRNS, KC_TRNS, O_ACUTE, U_ACUTE, LCTL(KC_BSPC),
+		C_ACUTE, A_TILDE, O_TILDE, A_CIRC, KC_TRNS,		KC_TRNS, KC_TRNS, A_ACUTE, I_ACUTE, E_ACUTE,
 		KC_TRNS, E_CIRC, O_CIRC, A_GRV, KC_TRNS,		KC_TRNS, KC_TRNS, RALT(KC_COMM), KC_RALT, RALT(KC_SLSH),
 						KC_TRNS, KC_TRNS,		KC_TRNS, KC_TRNS
 	),

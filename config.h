@@ -33,14 +33,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 100
 
 // Pick good defaults for enabling homerow modifiers
-#define TAPPING_TERM 300
+#define TAPPING_TERM 250
 #define IGNORE_MOD_TAP_INTERRUPT
 // #define PERMISSIVE_HOLD
 #define PERMISSIVE_HOLD_PER_KEY
 #define TAPPING_FORCE_HOLD
 // #define COMBO_COUNT 13
-#define COMBO_TERM 70
-#define COMBO_TERM_PER_COMBO
+#define COMBO_TERM 40
+#define COMBO_SHOULD_TRIGGER
+// #define COMBO_TERM_PER_COMBO
 #define CAPS_WORD_IDLE_TIMEOUT 5000
 // #define COMBO_ONLY_FROM_LAYER 0
 
