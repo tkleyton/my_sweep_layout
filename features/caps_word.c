@@ -18,6 +18,15 @@
 
 #include "caps_word.h"
 
+#ifndef REPEAT
+  #define REPEAT LT(4, KC_NO)
+#endif
+
+enum custom_keycodes {
+    NH = SAFE_RANGE,
+    HN,
+};
+
 static bool caps_word_active = false;
 
 // Many keyboards enable the Command feature, which by default is also activated
@@ -144,6 +153,9 @@ __attribute__((weak)) bool caps_word_press_user(uint16_t keycode) {
   switch (keycode) {
     // Keycodes that continue Caps Word, with shift applied.
     case KC_A ... KC_Z:
+    case HN:
+    case NH:
+    case REPEAT:
       add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
       return true;
 
